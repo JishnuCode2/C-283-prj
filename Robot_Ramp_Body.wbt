@@ -1,0 +1,219 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/OldPlywood.proto"
+
+WorldInfo {
+  info [
+    "In this example, the robot turns on a slope."
+    "Its accelerometer sensor is used to switch on the bottommost LED."
+  ]
+  title "Accelerometer"
+  basicTimeStep 8
+  contactProperties [
+    ContactProperties {
+      material2 "body"
+      coulombFriction [
+        0
+      ]
+      softCFM 0.1
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.17368405728683378 -0.17436406328794354 0.9692424989021591 4.868231121210085
+  position 0.015518860483642163 0.7947459296362283 0.4388075510747528
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.6
+  location 0.6 0 0
+}
+DEF SLOPE Solid {
+  translation 0 0 0.15
+  rotation 1 0 0 -1.970795
+  children [
+    Shape {
+      appearance OldPlywood {
+      }
+      geometry DEF BOX0 Box {
+        size 0.2 0.02 0.8
+      }
+    }
+  ]
+  name "green box"
+  boundingObject USE BOX0
+}
+Robot {
+  translation 0.0104118 0.0345 0.155969
+  rotation -0.2117688799428559 0.24383886176157055 0.9464124634547929 1.51628
+  children [
+    DEF Mouth Pose {
+      translation 0.04 0.002 0.03
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.666667 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.03 0.01
+          }
+        }
+      ]
+    }
+    DEF ds2 DistanceSensor {
+      translation 0.041 -0.016 0.06
+      rotation 0 0 -1 0.261796
+      children [
+        Pose {
+          rotation 0 1 0 -1.5707953071795862
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.333333 0.333333 1
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.003
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+      name "distance sensor(1)"
+    }
+    DEF ds1 DistanceSensor {
+      translation 0.03854 0.0209778 0.06
+      rotation 0 0 1 0.523598
+      children [
+        Pose {
+          rotation 0 1 0 -1.5707953071795862
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.333333 0.333333 1
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.003
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF wheel2 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 16.7
+        axis 0 1 0
+        anchor 0 0 0.025
+      }
+      device [
+        RotationalMotor {
+          consumptionFactor 70
+        }
+      ]
+      endPoint Solid {
+        translation -1.0484e-07 -0.045 0.0249995
+        rotation 0.21014872572786894 -0.2101510198668815 0.9548162451089018 4.66616777628624
+        children [
+          Pose {
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.09394
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "solid(1)"
+      }
+    }
+    DEF wheel1 HingeJoint {
+      jointParameters HingeJointParameters {
+        position 16.7
+        axis 0 1 0
+        anchor 0 0 0.025
+      }
+      device [
+        RotationalMotor {
+          consumptionFactor 70
+        }
+      ]
+      endPoint Solid {
+        translation 5.2166816964269944e-08 0.045 0.024999554520520672
+        rotation 0.21014872572786894 -0.2101510198668815 0.9548162451089018 4.66616777628624
+        children [
+          Pose {
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.09394
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+    Accelerometer {
+    }
+    Pose {
+      translation 0 0 0.0415
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+  ]
+  name "MyBot"
+  contactMaterial "body"
+  boundingObject Pose {
+    translation 0 0 0.0415
+    rotation 0 0 1 -1.570796
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "accelerometer"
+}
